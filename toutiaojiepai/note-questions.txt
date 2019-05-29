@@ -1,0 +1,13 @@
+Question:
+1.使用 requests 时：
+s = requests.get('https://www.toutiao.com/api/search/content/?keyword=%E8%A1%97%E6%8B%8D&aid=24&app_name=web_search&offset=0&format=json&autoload=true&count=20&en_qc=1&cur_tab=1&from=search_tab&pd=synthesis&timestamp=',int(time.time()))
+发送上面这个请求后，调用 s.json()返回的信息不是正确的网页信息，但是把 keyword 后面的‘&’（即 a 前面的&）去掉后就可以正确抓取到，而且把 keyword 这个参数和其他参数换位置后不管怎么样都抓取不到；
+用开发者工具查看头条街拍的 Request URL是： https://www.toutiao.com/api/search/content/?aid=24&app_name=web_search&offset=0&format=json&keyword=%E8%A1%97%E6%8B%8D&autoload=true&count=20&en_qc=1&cur_tab=1&from=search_tab&pd=synthesis&timestamp=1559032961134
+2.创建文件夹时\/?*"<>这样的字符是不可用的，本来想用正则的re.sub试着替换，但是如果将不可用字符定义一个变量，再for循环的话，例如‘？’这样在正则中有特殊意义的字符，使用re.sub会出问题：re.sub('\', '', title), 应该用的是re.sub('\\', '', title).所以说，只能多写几个if语句？？？待后面仔细学习一下正则再来试一下吧。暂时用in 和 replace替代；
+
+note:
+1.s=s.replace(old, new),将s中的old字符串替换成new的，需要重新赋值，list.pop()返回的是删除的项；
+2.官方文档的typing — Support for type hints，最好看一下
+3.response.context返回的是二进制数据，md5（信息摘要算法，不可逆）可以用于去重，sha1（哈希算法加密）跟md5用法几乎一样。
+4.urlencode（from urllib.parse import urlenco）,可以把key-value这样的键值对转换成a=1&b=2;
+	若需要对字符串进行urlcode转换，urllib.parse.quote(str)==>%E9%95%BF,解码：unquote（）,但是没有urldecode（）
